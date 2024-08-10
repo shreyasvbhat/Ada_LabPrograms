@@ -71,7 +71,7 @@ void plotter()
         for (int i = 1; i <= n; i++)
         {
             w[i] = rand() % m + 1;
-            v[i] = rand();
+            v[i] = rand() % 50 + 1;
         }
         Knap();
         fprintf(f1, "%d\t%d\n", n, count);
