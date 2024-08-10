@@ -89,7 +89,6 @@ int *execute(int (*func)(int, int), int i)
                 arr[1] = count;
         }
     }
-
     return arr;
 }
 

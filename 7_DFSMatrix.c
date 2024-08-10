@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int isCycle = 0, components = 0, n, opcount = 0,isTester=0;
+int isCycle = 0, components = 0, n, opcount = 0, isTester = 0;
 
 void dfs(int mat[n][n], int *vis, int source, int par)
 {
     vis[source] = 1;
 
-    if(isTester)
-    printf("%d ",source);
+    if (isTester)
+        printf("%d ", source);
 
     for (int i = 0; i < n; i++)
     {
@@ -22,7 +22,7 @@ void dfs(int mat[n][n], int *vis, int source, int par)
 
 void checkConnectivity(int mat[n][n])
 {
-    int vis[n],k=1;
+    int vis[n], k = 1;
 
     for (int i = 0; i < n; i++)
         vis[i] = 0;
@@ -31,16 +31,16 @@ void checkConnectivity(int mat[n][n])
         if (!vis[i])
         {
             components++;
-            
-            if(isTester)
-            printf("\nComponent %d: ",k++);
+
+            if (isTester)
+                printf("\nComponent %d: ", k++);
             dfs(mat, &vis[0], i, -1);
         }
 }
 
 void tester()
 {
-    isTester=1;
+    isTester = 1;
     printf("Enter the number of vertices\n");
     scanf("%d", &n);
     int adjMat[n][n];
@@ -62,7 +62,7 @@ void tester()
 void plotter()
 {
     FILE *f1 = fopen("dfsadjMat.txt", "w");
-    isTester=0;
+    isTester = 0;
 
     for (int k = 1; k <= 10; k++)
     {

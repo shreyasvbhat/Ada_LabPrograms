@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int isCycle = 0,components = 0, n,opcount = 0,isTester;
+int isCycle = 0, components = 0, n, opcount = 0, isTester;
 
 void bfs(int mat[n][n], int *vis, int source)
 {
@@ -14,8 +14,8 @@ void bfs(int mat[n][n], int *vis, int source)
     {
         int curr = queue[++front];
         int par = parent[front];
-        if(isTester)
-        printf("%d ",curr);
+        if (isTester)
+            printf("%d ", curr);
         for (int i = 0; i < n; i++)
         {
             opcount++;
@@ -33,7 +33,7 @@ void bfs(int mat[n][n], int *vis, int source)
 
 void checkConnectivity(int mat[n][n])
 {
-    int vis[n],k=1;
+    int vis[n], k = 1;
     for (int i = 0; i < n; i++)
     {
         vis[i] = 0;
@@ -43,8 +43,8 @@ void checkConnectivity(int mat[n][n])
         if (vis[i] == 0)
         {
             components++;
-            if(isTester)
-            printf("\nConnected component %d: ",k++);
+            if (isTester)
+                printf("\nConnected component %d: ", k++);
             bfs(mat, &vis[0], i);
         }
     }
@@ -52,7 +52,7 @@ void checkConnectivity(int mat[n][n])
 
 void tester()
 {
-    isTester=1;
+    isTester = 1;
     printf("Enter number of vertices :\n");
     scanf("%d", &n);
     int adjMat[n][n];
@@ -80,7 +80,7 @@ void tester()
 
 void plotter()
 {
-    isTester=0;
+    isTester = 0;
     FILE *f1 = fopen("bfsadjMat.txt", "w");
     for (int k = 1; k <= 10; k++)
     {
