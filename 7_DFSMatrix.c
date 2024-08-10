@@ -1,25 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int isCycle = 0, components = 0, n, opcount = 0;
+int isCycle = 0, components = 0, n, opcount = 0,isTester=0;
 
-void dfs(int mat[n][n], int *vis, int source, int par, int n)
+void dfs(int mat[n][n], int *vis, int source, int par)
 {
     vis[source] = 1;
+
+    if(isTester)
+    printf("%d ",source);
 
     for (int i = 0; i < n; i++)
     {
         opcount++;
         if (mat[source][i] && vis[i] && i != par)
-            isCycle = 0;
+            isCycle = 1;
         else if (mat[source][i] && !vis[i])
-            dfs(mat, vis, i, source, n);
+            dfs(mat, vis, i, source);
     }
 }
 
-void checkConnectivity(int mat[n][n], int n)
+void checkConnectivity(int mat[n][n])
 {
-    int vis[n];
+    int vis[n],k=1;
 
     for (int i = 0; i < n; i++)
         vis[i] = 0;
@@ -28,12 +31,16 @@ void checkConnectivity(int mat[n][n], int n)
         if (!vis[i])
         {
             components++;
-            dfs(mat, &vis[0], i, -1, n);
+            
+            if(isTester)
+            printf("\nComponent %d: ",k++);
+            dfs(mat, &vis[0], i, -1);
         }
 }
 
 void tester()
 {
+    isTester=1;
     printf("Enter the number of vertices\n");
     scanf("%d", &n);
     int adjMat[n][n];
@@ -42,19 +49,20 @@ void tester()
         for (int j = 0; j < n; j++)
             scanf("%d", &adjMat[i][j]);
 
-    checkConnectivity(adjMat, n);
+    checkConnectivity(adjMat);
 
-    printf("The number of connected components :%d\n", components);
+    printf("\nThe number of connected components :%d\n", components);
 
     if (isCycle)
-        printf("\nCycle exists\n");
+        printf("Cycle exists\n");
     else
-        printf("\nCycle doesnot exists\n");
+        printf("Cycle doesnot exists\n");
 }
 
 void plotter()
 {
     FILE *f1 = fopen("dfsadjMat.txt", "w");
+    isTester=0;
 
     for (int k = 1; k <= 10; k++)
     {
@@ -72,7 +80,7 @@ void plotter()
             }
         }
         opcount = 0;
-        checkConnectivity(adjMat, n);
+        checkConnectivity(adjMat);
         fprintf(f1, "%d\t%d\n", n, opcount);
     }
     fclose(f1);
