@@ -20,10 +20,10 @@ int Knap()
             else
             {
                 count++;
-                if (j < w[i])
+                if (j < w[i-1])
                     t[i][j] = t[i - 1][j];
                 else
-                    t[i][j] = max(t[i - 1][j], v[i] + t[i - 1][j - w[i]]);
+                    t[i][j] = max(t[i - 1][j], v[i-1] + t[i - 1][j - w[i-1]]);
             }
         }
     }
@@ -54,7 +54,7 @@ void tester()
         if (t[i][m] != t[i - 1][m])
         {
             printf("%d\t", i);
-            m = m - w[i];
+            m = m - w[i-1];
         }
     }
     printf("\n");
