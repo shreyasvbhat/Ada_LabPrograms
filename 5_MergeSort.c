@@ -30,12 +30,10 @@ void merge(int *arr, int beg, int mid, int end)
     }
     while (i < n1)
     {
-        count++;
         arr[k++] = left[i++];
     }
     while (j < n2)
     {
-        count++;
         arr[k++] = right[j++];
     }
 }
