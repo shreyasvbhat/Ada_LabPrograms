@@ -1,5 +1,3 @@
-//Even though the program gives best, worst and average case the graph will be only a single line as the time
-//complexity of merge sort is O(NlogN) for any input you give.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
