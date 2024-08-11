@@ -4,7 +4,7 @@
 
 int count = 0;
 
-int euclid(int m, int n)
+int gcdEuclid(int m, int n)
 {
     count = 0;
     while (n != 0)
@@ -18,7 +18,7 @@ int euclid(int m, int n)
     return m;
 }
 
-int consecutiveIntegerCheck(int m, int n)
+int gcdConsecutiveIntegerCheck(int m, int n)
 {
     count = 0;
     int t = m > n ? n : m;
@@ -38,22 +38,20 @@ int consecutiveIntegerCheck(int m, int n)
 
 int modifiedEuclids(int m, int n)
 {
+    if (n == 0 || m == 0)
+        return m > n ? m : n;
+
     count = 0;
 
-    while (n != 0)
+    while (++count && m != n)
     {
-        count++;
-        if (m < n)
-        {
-            int temp = m;
-            m = n;
-            n = temp;
-        }
-
-        m -= n;
+        if (m > n)
+            m -= n;
+        else
+            n -= m;
     }
 
-    return m;
+    return n;
 }
 
 void tester()
@@ -67,29 +65,9 @@ void tester()
         printf("Cannot find gcd...Invalid inputs...");
     }
 
-    printf("gcd through euclid algorithm :%d\n", euclid(m, n));
-    printf("gcd through consecutive checking method :%d\n", consecutiveIntegerCheck(m, n));
+    printf("gcd through euclid algorithm :%d\n", gcdEuclid(m, n));
+    printf("gcd through consecutive checking method :%d\n", gcdConsecutiveIntegerCheck(m, n));
     printf("gcd through repeated subtraction method :%d\n", modifiedEuclids(m, n));
-}
-
-int *execute(int (*func)(int, int), int i)
-{
-    int *arr = (int *)malloc(2 * sizeof(int));
-    arr[0] = INT_MAX;
-    arr[1] = INT_MIN;
-
-    for (int j = 2; j <= i; j++)
-    {
-        for (int k = 2; k <= i; k++)
-        {
-            func(j, k);
-            if (count < arr[0])
-                arr[0] = count;
-            if (count > arr[1])
-                arr[1] = count;
-        }
-    }
-    return arr;
 }
 
 void plotter()
@@ -103,17 +81,56 @@ void plotter()
 
     for (int i = 10; i <= 100; i += 10)
     {
-        int *arr = execute(euclid, i);
-        fprintf(f1, "%d\t%d\n", i, arr[0]);
-        fprintf(f2, "%d\t%d\n", i, arr[1]);
+        int min = INT_MAX, max = INT_MIN;
+        for (int j = 2; j <= i; j++)
+        {
+            for (int k = 2; k <= i; k++)
+            {
+                gcdEuclid(j, k);
+                if (count < min)
+                    min = count;
+                if (count > max)
+                    max = count;
+            }
+        }
+        fprintf(f1, "%d\t%d\n", i, min);
+        fprintf(f2, "%d\t%d\n", i, max);
+    }
 
-        arr = execute(consecutiveIntegerCheck, i);
-        fprintf(f3, "%d\t%d\n", i, arr[0]);
-        fprintf(f4, "%d\t%d\n", i, arr[1]);
+    for (int i = 10; i <= 100; i += 10)
+    {
+        int min = INT_MAX, max = INT_MIN;
+        for (int j = 2; j <= i; j++)
+        {
+            for (int k = 2; k <= i; k++)
+            {
+                gcdConsecutiveIntegerCheck(j, k);
+                if (count < min)
+                    min = count;
+                if (count > max)
+                    max = count;
+            }
+        }
+        fprintf(f3, "%d\t%d\n", i, min);
+        fprintf(f4, "%d\t%d\n", i, max);
+    }
 
-        arr = execute(modifiedEuclids, i);
-        fprintf(f5, "%d\t%d\n", i, arr[0]);
-        fprintf(f6, "%d\t%d\n", i, arr[1]);
+    for (int i = 10; i <= 100; i += 10)
+    {
+        int min = INT_MAX, max = INT_MIN;
+        for (int j = 2; j <= i; j++)
+        {
+            for (int k = 2; k <= i; k++)
+            {
+                modifiedEuclids(j, k);
+                if (count < min)
+                    min = count;
+                if (count > max)
+                    max = count;
+            }
+        }
+        fprintf(f5, "%d\t%d\n", i, min);
+        fprintf(f6, "%d\t%d\n", i, max);
     }
 }
 
