@@ -1,78 +1,101 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int n, opcount = 0, top = -1, ans[100];
+int n, opcount = 0, top = -1;
 
-int dfs(int mat[n][n], int *vis, int *stack, int s, int *ans)
+int dfs(int mat[n][n], int *vis, int *track, int source, int *stack)
 {
-    vis[s] = 1, stack[s] = 1;
+    vis[source] = 1;
+    track[source] = 1;
+
     for (int i = 0; i < n; i++)
     {
         opcount++;
-        if (mat[s][i] && stack[i] && vis[i])
-            return 0;
-        if (mat[s][i] && !vis[i] && dfs(mat, vis, stack, i, ans))
-            return 0;
+        if (mat[source][i] && track[i] && vis[i])
+        {
+            return 1;
+        }
+
+        if (mat[source][i] && !vis[i] && dfs(mat, vis, track, i, stack))
+        {
+            return 1;
+        }
     }
-    ans[++top] = s;
-    stack[s] = 0;
-    return 1;
+
+    stack[++top] = source;
+    track[source] = 0;
+    return 0;
 }
 
-int check(int mat[n][n])
+int *checkConnectivity(int mat[n][n])
 {
-    int vis[n], stack[n];
-    ans[n];
+    int vis[n], track[n];
+    int stack = (int)malloc(n * sizeof(int));
+
     for (int i = 0; i < n; i++)
+    {
         vis[i] = 0;
+    }
+
     for (int i = 0; i < n; i++)
     {
         if (!vis[i])
         {
-            if (dfs(mat, &vis[0], &stack[0], i, &ans[0]))
-                return 1;
+            if (dfs(mat, &vis[0], &track[0], i, stack))
+            {
+                return NULL;
+            }
         }
     }
-    return 0;
+
+    return stack;
 }
 
 void tester()
 {
-    printf("Enter number of vertices:\n");
+    printf("Enter number of vertices :\n");
     scanf("%d", &n);
     int adjMat[n][n];
-    printf("Enter the adjacency matrix:\n");
+
+    printf("Enter the adjacency matrix :\n");
     for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            scanf("%d", &adjMat[i][j]);
-    if (check(adjMat))
     {
-        printf("Cycle exists..Cannot perform topological sorting!!!\n");
+        for (int j = 0; j < n; j++)
+        {
+            scanf("%d", &adjMat[i][j]);
+        }
+    }
+
+    int *stack = checkConnectivity(adjMat);
+    if (stack == NULL)
+    {
+        printf("Cycle exists..Cannot perform topological sorting!!!");
         exit(0);
     }
     else
     {
-        printf("Topological sorting order:\n");
+        printf("Topological sorting order : \n");
+
         while (top != -1)
-            printf("%d ", ans[top--]);
-        printf("\n");
+        {
+            printf("%d ", stack[top--]);
+        }
     }
 }
 
 void plotter()
 {
-    FILE *f1 = fopen("DFSMatsort.txt", "w");
+    FILE *f1 = fopen("bfsMatTopSort.txt", "w");
+
     for (int k = 1; k <= 10; k++)
     {
         n = k;
         int adjMat[n][n];
+
         for (int i = 0; i < n; i++)
-        {
             for (int j = 0; j < n; j++)
-            {
                 adjMat[i][j] = 0;
-            }
-        }
+
         for (int i = 0; i < n - 1; i++)
         {
             for (int j = i + 1; j < n; j++)
@@ -80,17 +103,19 @@ void plotter()
                 adjMat[i][j] = 1;
             }
         }
-        opcount = 0;
-        check(adjMat);
+
+        opcount = 0, top = -1;
+        checkConnectivity(adjMat);
         fprintf(f1, "%d\t%d\n", n, opcount);
     }
+
     fclose(f1);
 }
 
 void main()
 {
     int choice;
-    printf("Enter\n 1.Tester\n 2.Plotter\n");
+    printf("Enter\n1.Tester\n2.Plotter\n");
     scanf("%d", &choice);
     switch (choice)
     {
@@ -101,6 +126,6 @@ void main()
         plotter();
         break;
     default:
-        printf("Invalid choice\n");
+        printf("Invalid choice");
     }
 }
