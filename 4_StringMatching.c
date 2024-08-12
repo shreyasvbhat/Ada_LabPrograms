@@ -65,18 +65,22 @@ void plotter()
 
 void tester()
 {
-    char *text = (char *)malloc(100 * sizeof(char));
-    char *pattern = (char *)malloc(100 * sizeof(char));
-
-    printf("Enter the text: ");
-    gets(text);
+    int m, n;
+    char text[100], pattern[100];
+    printf("Enter the pattern length: ");
+    scanf("%d", &m);
     printf("Enter the pattern: ");
-    gets(pattern);
-
-    int n = strlen(text), m = strlen(pattern);
-    bool isMatched = stringmatching(text, pattern, n, m);
-
-    if (isMatched) {
+    getchar();
+    fgets(pattern, sizeof(pattern), stdin);
+    pattern[strcspn(pattern, "\n")] = '\0';
+    printf("Enter the text length: ");
+    scanf("%d", &n);
+    printf("Enter the text: ");
+    getchar();
+    fgets(text, sizeof(text), stdin);
+    pattern[strcspn(text, "\n")] = '\0';
+    bool comparisons = stringmatching(text, pattern, n, m);
+     if (comparisons) {
         printf("\nPattern '%s' matched with Text '%s'\n", pattern, text);
     } else {
         printf("\nPattern '%s' doesn't match with the Text '%s'\n", pattern, text);
