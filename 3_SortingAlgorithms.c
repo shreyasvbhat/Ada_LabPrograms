@@ -40,7 +40,7 @@ void insertionSort(int *arr, int n)
         {
             arr[j + 1] = arr[j];
             j--;
-            if (j <= 0)
+            if (j < 0)
                 break;
         }
         arr[j + 1] = val;
