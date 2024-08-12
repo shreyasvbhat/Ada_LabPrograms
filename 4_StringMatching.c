@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <stdbool.h>
 
 int count = 0;
-int stringmatching(char *text, char *pattern, int n, int m)
+bool stringmatching(char *text, char *pattern, int n, int m)
 {
     count = 0;
     for (int i = 0; i <= (n - m); i++)
@@ -18,9 +19,9 @@ int stringmatching(char *text, char *pattern, int n, int m)
             j++;
         }
         if (j == m)
-            return count;
+            return true;
     }
-    return count;
+    return false;
 }
 
 void plotter()
@@ -64,22 +65,22 @@ void plotter()
 
 void tester()
 {
-    int m, n;
-    char text[100], pattern[100];
-    printf("Enter the pattern length: ");
-    scanf("%d", &m);
-    printf("Enter the pattern: ");
-    getchar();
-    fgets(pattern, sizeof(pattern), stdin);
-    pattern[strcspn(pattern, "\n")] = '\0';
-    printf("Enter the text length: ");
-    scanf("%d", &n);
+    char *text = (char *)malloc(100 * sizeof(char));
+    char *pattern = (char *)malloc(100 * sizeof(char));
+
     printf("Enter the text: ");
-    getchar();
-    fgets(text, sizeof(text), stdin);
-    pattern[strcspn(text, "\n")] = '\0';
-    int comparisons = stringmatching(text, pattern, n, m);
-    printf("Number of comparisons: %d\n", comparisons);
+    gets(text);
+    printf("Enter the pattern: ");
+    gets(pattern);
+
+    int n = strlen(text), m = strlen(pattern);
+    bool isMatched = stringmatching(text, pattern, n, m);
+
+    if (isMatched) {
+        printf("\nPattern '%s' matched with Text '%s'\n", pattern, text);
+    } else {
+        printf("\nPattern '%s' doesn't match with the Text '%s'\n", pattern, text);
+    }
 }
 
 void main()
