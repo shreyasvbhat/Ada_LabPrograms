@@ -30,7 +30,7 @@ int dfs(int mat[n][n], int *vis, int *track, int source, int *stack)
 int *checkConnectivity(int mat[n][n])
 {
     int vis[n], track[n];
-    int stack = (int*)malloc(n * sizeof(int));
+    int* stack = (int*)malloc(n * sizeof(int));
 
     for (int i = 0; i < n; i++)
     {
