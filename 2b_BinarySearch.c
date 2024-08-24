@@ -59,7 +59,7 @@ void plotter()
         r = binarySearch(0, arr, n - 1, 0);
         fprintf(f1, "%d\t%d\n", n, count);
         for (int i = 0; i < n; i++)
-            *(arr + i) = rand() % n;
+            *(arr + i) = i;//has to be sorted array for binary search to work 
         key = rand() % n + 1;
         count = 0;
         r = binarySearch(key, arr, n - 1, 0);
